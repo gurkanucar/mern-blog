@@ -38,12 +38,13 @@ div.entry {
   display: flex;
   align-items: start;
   gap: 20px;
-  background-color: rgb(230, 241, 247);
+  background-color: rgb(247, 249, 255);
   padding: 10px;
   border-radius: 20px;
   margin-top: 30px;
   margin-bottom: 50px;
 }
+
 
 
 div.entry div.image {
@@ -57,7 +58,24 @@ div.entry div.image img {
   border-radius: 16px;
 }
 
-div.entry div.texts {}
+div.entry div.texts div.info {
+  display: flex;
+  justify-content: flex-start;
+  color: rgb(138, 138, 138);
+  font-weight: 500;
+  font-size: .9 rem;
+}
+
+div.entry div.texts div.info a {
+  text-decoration: none;
+  color: #222
+}
+
+div.entry div.texts div.info a::after {
+  content: " - ";
+  margin: 0 5px
+}
+
 
 div.entry div.texts h2 {
   overflow: hidden;
