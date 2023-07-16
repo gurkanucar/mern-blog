@@ -1,17 +1,13 @@
 import './App.css';
 import Entry from './component/Entry/Entry';
+import Header from './component/Header/Header';
 
 function App() {
   return (
     <main>
-      <header>
-        <a href="" className="logo">Logo</a>
-        <nav>
-          <a href="">Login</a>
-          <a href="">Register</a>
-        </nav>
-      </header>
-
+      <Header />
+      <Entry />
+      <Entry />
       <Entry />
     </main>
   );
