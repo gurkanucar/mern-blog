@@ -12,11 +12,13 @@ const LoginPage = () => {
 
     return (
         <form className='login' onSubmit={onSubmit}>
+            <h2>Login</h2>
             <div className="form__group field">
                 <input type="input" className="form__field" autoComplete="off" placeholder="Username" name="username" id='username' required />
                 <label htmlFor="username" className="form__label">Username</label>
-            </div><div className="form__group field">
-                <input type="input" autoComplete="off" className="form__field" placeholder="Password" name="password" id='password' required />
+            </div>
+            <div className="form__group field">
+                <input type="password" autoComplete="off" className="form__field" placeholder="Password" name="password" id='password' required />
                 <label htmlFor="password" className="form__label">Password</label>
             </div>
             <button>Login</button>

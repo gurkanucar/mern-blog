@@ -1,7 +1,7 @@
-.login {
+.register {
     min-width: 300px;
     width: 70%;
-    margin: 150px auto;
+    margin: 70px auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,7 +77,7 @@
 
 
 
-.login button {
+.register button {
     appearance: button;
     backface-visibility: hidden;
     background-color: #11998e;
@@ -106,10 +106,10 @@
     width: 50%;
 }
 
-.login button:disabled {
+.register button:disabled {
     cursor: default;
 }
 
-.login button:focus {
+.register button:focus {
     box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
 }

@@ -23,6 +23,7 @@ header a {
 header a.logo {
   font-weight: 900;
   font-size: 1.4rem;
+  color: #11998e;
 }
 
 header nav {
