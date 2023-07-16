@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main>
+      <header>
+        <a href="" className="logo">Logo</a>
+        <nav>
+          <a href="">Login</a>
+          <a href="">Register</a>
+        </nav>
       </header>
-    </div>
+      <div className="entry">
+        <div className="image">
+          <img src="https://techcrunch.com/wp-content/uploads/2023/07/GettyImages-500665269.jpg?w=430&h=230&crop=1" />
+        </div>
+        <div className="texts">
+          <h2>On-prem data centers are hanging in, but cloud capacity is growing much faster</h2>
+          <p>In 2017, on-prem data centers accounted for nearly 60% of capacity. By 2027, Synergy Research is projecting that number will be cut in half, but that data doesn’t tell the whole story. New research from Synergy finds that on-prem data center growth is actually hanging in, but over the next five years, growth will remain essentially unchanged. At the same time, hyperscale data centers operated by the largest cloud companies will continue to grow at a hefty rate.</p>
+        </div>
+      </div>
+
+    </main>
   );
 }
 
