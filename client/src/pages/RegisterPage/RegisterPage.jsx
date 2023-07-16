@@ -3,11 +3,32 @@ import "./RegisterPage.css"
 
 const RegisterPage = () => {
 
-    const onSubmit = (e) => {
+    const sendRegisterRequest = async (values) => {
+        try {
+            const response = await fetch("http://localhost:8080/register", {
+                method: "POST",
+                body: JSON.stringify(values),
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (response.ok) {
+                console.log("Registration successful");
+            } else {
+                console.log("Registration failed");
+            }
+        } catch (error) {
+            console.error("An error occurred during registration:", error);
+        }
+    };
+
+
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const formProps = Object.fromEntries(formData);
-        console.log(formProps)
+        console.log(formProps);
+
+        await sendRegisterRequest(formProps);
     }
 
     return (
