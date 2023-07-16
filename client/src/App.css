@@ -38,7 +38,8 @@ div.entry {
   display: flex;
   align-items: start;
   gap: 20px;
-  background-color: rgb(247, 249, 255);
+  /* background-color: rgb(247, 249, 255); */
+  background-color: #11998e17;
   padding: 10px;
   border-radius: 20px;
   margin-top: 30px;
