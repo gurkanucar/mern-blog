@@ -6,13 +6,14 @@ import axios from 'axios';
 const RegisterPage = () => {
 
     const sendRegisterRequest = async (values) => {
+
         await axios.post("http://localhost:8080/register", values)
             .then(data => {
                 toast.success("Registration successful");
                 console.log("Registration successful");
             })
             .catch(e => {
-                const { errors } = e.response.data;
+                const errors = e?.response?.data?.errors;
                 const errorMessage = errors?.map((err) => err.message).join(', ');
                 toast.error(`Registration failed! ${errorMessage}`);
                 console.log("Registration failed", errorMessage);
