@@ -1,6 +1,12 @@
 
 const { validate } = require("joi");
 const Joi = require("joi");
+const bcrypt = require("bcryptjs")
+
+const salt = bcrypt.genSaltSync(10);
+
+
+
 
 const User = require('../models/User');
 
@@ -10,11 +16,13 @@ const User = require('../models/User');
 exports.login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const userDoc = await User.findOne({ username })
+
     res.json({
-        "message": "success"
+        "message": "success",
+        "user": userDoc
     })
 }
-
 
 exports.register = async (req, res) => {
 
@@ -34,7 +42,9 @@ exports.register = async (req, res) => {
         return res.status(400).json({ errors: errorDetails });
     }
 
-    const { username, email, password } = req.body;
+    let { username, email, password } = req.body;
+
+    password = bcrypt.hashSync(password, salt)
 
     const userDoc = await User.create({
         username, email, password
