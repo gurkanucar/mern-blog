@@ -1,57 +1,32 @@
-
-const { validate } = require("joi");
-const Joi = require("joi");
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken");
-const salt = bcrypt.genSaltSync(10);
-
-const jwt_secret = "myjwtsecret"
-
-
-const User = require('../models/User');
-
-
+const bcrypt = require("bcryptjs");
+const { generateToken } = require("../util/jwtUtil");
+const { registerSchema } = require("../schema/dtoValidationSchemas");
+const User = require("../models/User");
 
 exports.login = async (req, res) => {
     try {
-        const username = req.body.username;
-        const password = req.body.password;
-        const userDoc = await User.findOne({ username })
+        const { username, password } = req.body;
+        const userDoc = await User.findOne({ username });
 
-        const isPasswordSame = bcrypt.compareSync(password, userDoc.password);
-
-        if (!isPasswordSame) {
+        if (!userDoc || !bcrypt.compareSync(password, userDoc.password)) {
             return res.status(401).json({
-                "message": "wrong credentials!"
+                message: "Wrong credentials!",
             });
         }
 
-        jwt.sign({
-            username, id: userDoc._id
-        }, jwt_secret, {}, (err, token) => {
-            if (err) throw err;
-            res.json({
-                "user": userDoc,
-                "accessToken": token
-            });
-        })
-    }
-    catch (e) {
+        const token = generateToken({ username, id: userDoc._id });
+        res.json({
+            user: userDoc,
+            accessToken: token,
+        });
+    } catch (e) {
         res.status(401).json({
-            "message": "wrong credentials!"
+            message: "Wrong credentials!",
         });
     }
-
-}
+};
 
 exports.register = async (req, res) => {
-
-    const registerSchema = Joi.object({
-        username: Joi.string().min(4).max(12).required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().min(6).required()
-    }).options({ abortEarly: false });
-
     const { error } = registerSchema.validate(req.body);
 
     if (error) {
@@ -62,18 +37,24 @@ exports.register = async (req, res) => {
         return res.status(400).json({ errors: errorDetails });
     }
 
-    let { username, email, password } = req.body;
+    const { username, email, password } = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
-    password = bcrypt.hashSync(password, salt)
+    try {
+        const userDoc = await User.create({
+            username,
+            email,
+            password: hashedPassword,
+        });
 
-    const userDoc = await User.create({
-        username, email, password
-    });
+        console.log("User created");
 
-    console.log("user created")
-
-    res.json({
-        "message": "success",
-        "user": userDoc
-    })
-}
+        res.json({
+            message: "Success",
+            user: userDoc,
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
