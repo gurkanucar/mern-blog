@@ -13,28 +13,34 @@ const User = require('../models/User');
 
 
 exports.login = async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    const userDoc = await User.findOne({ username })
+    try {
+        const username = req.body.username;
+        const password = req.body.password;
+        const userDoc = await User.findOne({ username })
 
-    const isPasswordSame = bcrypt.compareSync(password, userDoc.password);
+        const isPasswordSame = bcrypt.compareSync(password, userDoc.password);
 
-    if (!isPasswordSame) {
-        return res.status(401).json({
+        if (!isPasswordSame) {
+            return res.status(401).json({
+                "message": "wrong credentials!"
+            });
+        }
+
+        jwt.sign({
+            username, id: userDoc._id
+        }, jwt_secret, {}, (err, token) => {
+            if (err) throw err;
+            res.json({
+                "user": userDoc,
+                "accessToken": token
+            });
+        })
+    }
+    catch (e) {
+        res.status(401).json({
             "message": "wrong credentials!"
         });
     }
-
-    jwt.sign({
-        username, id: userDoc._id
-    }, jwt_secret, {}, (err, token) => {
-        if (err) throw err;
-        res.json({
-            "message": "success",
-            "accessToken": token
-        });
-    })
-
 
 }
 
