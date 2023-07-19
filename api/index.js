@@ -18,17 +18,7 @@ const app = express()
 app.use(express.json())
 app.use(cors(corsOptions));
 
-
-
-app.post("/login", (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    res.json({
-        "message": "success"
-    })
-});
-
-
+require("./routes/authRoute")(app);
 
 const registerSchema = Joi.object({
     username: Joi.string().min(4).max(12).required(),
