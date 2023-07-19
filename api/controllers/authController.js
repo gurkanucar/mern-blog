@@ -1,5 +1,7 @@
 
-const { Joi, validate } = require("joi");
+const { validate } = require("joi");
+const Joi = require("joi");
+
 const User = require('../models/User');
 
 
