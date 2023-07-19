@@ -1,14 +1,34 @@
 import React from 'react'
 import "./LoginPage.css"
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
 
-    const onSubmit = (e) => {
+    const sendLoginRequest = async (values) => {
+
+        await axios.post("http://localhost:8080/login", values)
+            .then(data => {
+                toast.success("Login successful");
+                console.log("Login successful");
+            })
+            .catch(e => {
+                const errors = e?.response?.data?.errors;
+                const errorMessage = errors?.map((err) => err.message).join(', ');
+                toast.error(`Login failed! ${errorMessage}`);
+                console.log("Login failed", errorMessage);
+            });
+    };
+
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const formProps = Object.fromEntries(formData);
-        console.log(formProps)
+        console.log(formProps);
+
+        await sendLoginRequest(formProps);
     }
+
 
     return (
         <form className='login' onSubmit={onSubmit}>
