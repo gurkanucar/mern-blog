@@ -13,7 +13,7 @@ export const getUserFromStorage = () => {
 }
 
 export const saveTokenToStorage = (data) => {
-    Cookies.set(TOKEN_KEY, data.accessToken)
+    Cookies.set(TOKEN_KEY, data)
 }
 
 export const removeTokenFromStorage = () => {

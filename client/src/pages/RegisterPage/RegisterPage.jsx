@@ -15,8 +15,8 @@ const RegisterPage = () => {
             .catch(e => {
                 const errors = e?.response?.data?.errors;
                 const errorMessage = errors?.map((err) => err.message).join(', ');
-                toast.error(`Registration failed! ${errorMessage}`);
-                console.log("Registration failed", errorMessage);
+                toast.error(`Registration failed! ${errorMessage || ""}`);
+                console.log("Registration failed", errorMessage || "");
             });
     };
 
