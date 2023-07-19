@@ -40,13 +40,21 @@ div.entry {
   align-items: start;
   gap: 20px;
   /* background-color: rgb(247, 249, 255); */
-  background-color: #11998e17;
+  /* background-color: #11998e17; */
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 10px;
   border-radius: 20px;
   margin-top: 30px;
   margin-bottom: 50px;
+  transition: all .3s;
+  animation: ease-in-out;
 }
 
+div.entry:hover {
+  transform: scale(1.04);
+  background-color: #11998e;
+  color: #fff
+}
 
 
 div.entry div.image {
@@ -63,14 +71,14 @@ div.entry div.image img {
 div.entry div.texts div.info {
   display: flex;
   justify-content: flex-start;
-  color: rgb(138, 138, 138);
+  color: inherit;
   font-weight: 500;
   font-size: .9 rem;
 }
 
 div.entry div.texts div.info a {
   text-decoration: none;
-  color: #222
+  color: inherit;
 }
 
 div.entry div.texts div.info a::after {
