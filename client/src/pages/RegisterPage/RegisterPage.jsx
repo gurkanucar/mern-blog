@@ -1,26 +1,23 @@
 import React from 'react'
 import "./RegisterPage.css"
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const RegisterPage = () => {
 
     const sendRegisterRequest = async (values) => {
-        try {
-            const response = await fetch("http://localhost:8080/register", {
-                method: "POST",
-                body: JSON.stringify(values),
-                headers: { "Content-Type": "application/json" },
-            });
-
-            if (response.ok) {
+        await axios.post("http://localhost:8080/register", values)
+            .then(data => {
+                toast.success("Registration successful");
                 console.log("Registration successful");
-            } else {
-                console.log("Registration failed");
-            }
-        } catch (error) {
-            console.error("An error occurred during registration:", error);
-        }
+            })
+            .catch(e => {
+                const { errors } = e.response.data;
+                const errorMessage = errors?.map((err) => err.message).join(', ');
+                toast.error(`Registration failed! ${errorMessage}`);
+                console.log("Registration failed", errorMessage);
+            });
     };
-
 
     const onSubmit = async (e) => {
         e.preventDefault();
