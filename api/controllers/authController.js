@@ -2,14 +2,13 @@
 const { validate } = require("joi");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs")
-
+const jwt = require("jsonwebtoken");
 const salt = bcrypt.genSaltSync(10);
 
-
+const jwt_secret = "myjwtsecret"
 
 
 const User = require('../models/User');
-
 
 
 
@@ -18,10 +17,25 @@ exports.login = async (req, res) => {
     const password = req.body.password;
     const userDoc = await User.findOne({ username })
 
-    res.json({
-        "message": "success",
-        "user": userDoc
+    const isPasswordSame = bcrypt.compareSync(password, userDoc.password);
+
+    if (!isPasswordSame) {
+        return res.status(401).json({
+            "message": "wrong credentials!"
+        });
+    }
+
+    jwt.sign({
+        username, id: userDoc._id
+    }, jwt_secret, {}, (err, token) => {
+        if (err) throw err;
+        res.json({
+            "message": "success",
+            "token": token
+        });
     })
+
+
 }
 
 exports.register = async (req, res) => {
