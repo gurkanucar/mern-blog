@@ -1,22 +1,13 @@
-
-
+const { register, login } = require("../controllers/authController");
 
 module.exports = (app) => {
 
-  app.get("/test", (req, res) => {
-    res.json({
-      "message": "test"
-    })
+  app.post("/register", async (req, res) => {
+    register(req, res)
   });
-
 
   app.post("/login", (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    res.json({
-      "message": "success"
-    })
+    login(req, res)
   });
-
 
 }
