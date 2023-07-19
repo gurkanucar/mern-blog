@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
         if (err) throw err;
         res.json({
             "message": "success",
-            "token": token
+            "accessToken": token
         });
     })
 
