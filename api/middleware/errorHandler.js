@@ -3,9 +3,9 @@ const { StatusCodes } = require('http-status-codes');
 const errorHandlerMiddleware = (err, req, res, next) => {
     let errorResponse = {
         path: req.originalUrl,
-        timestamp: new Date().getTime(),
+        time: new Date(),
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
-        msg: err.message || 'Something went wrong, try again later',
+        message: err.message || 'Something went wrong, try again later',
     };
     console.log(err.name)
 

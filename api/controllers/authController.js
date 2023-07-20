@@ -3,13 +3,16 @@ const { generateToken } = require("../util/jwtUtil");
 const { registerSchema } = require("../schema/dtoValidationSchemas");
 const User = require("../models/User");
 const ValidationError = require('../errors/validationError');
+const CustomError = require("../errors/customError");
+const { StatusCodes } = require("http-status-codes");
+
+
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     const userDoc = await User.findOne({ username });
 
     if (!userDoc || !bcrypt.compareSync(password, userDoc.password)) {
-        throw new ValidationError("wrong credentials!");
-        // throw new Error("wrong credentials!");
+        throw new CustomError("Wrong credentials!", StatusCodes.UNAUTHORIZED);
     }
 
     const token = generateToken({ username, id: userDoc._id });
@@ -28,7 +31,6 @@ exports.register = async (req, res) => {
             message: err.message,
         }));
         throw new ValidationError("Validation error!", errorDetails);
-        // return res.status(400).json({ errors: errorDetails });s
     }
 
     const { username, email, password } = req.body;
