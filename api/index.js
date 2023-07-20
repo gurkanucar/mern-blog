@@ -1,9 +1,11 @@
 require('dotenv').config();
-const express = require("express")
+const express = require("express");
+require('express-async-errors');
 const cors = require("cors");
 const mongoose = require("mongoose");
-const fs = require("fs");
-
+const authRoute = require('./routes/authRoute');
+const { errorHandlerMiddleware } = require("./middleware/errorHandler");
+// const  = require("./middleware/asyncHandler");
 
 var corsOptions = {
     origin: "*",
@@ -15,16 +17,13 @@ const app = express()
 app.use(express.json())
 app.use(cors(corsOptions));
 
-//require("./routes/authRoute")(app);
 
 
-const routesFolderPath = "./routes";
-const routeFiles = fs.readdirSync(routesFolderPath);
+app.use('/auth', authRoute);
 
-routeFiles.forEach((file) => {
-    const routeFilePath = `${routesFolderPath}/${file}`;
-    require(routeFilePath)(app);
-});
+
+app.use(errorHandlerMiddleware);
+
 
 
 
