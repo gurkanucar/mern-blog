@@ -1,19 +1,11 @@
-const { register, login } = require("../controllers/authController");
+const express = require('express')
+const authController = require('../controllers/authController');
 
-module.exports = (app) => {
+const router = express.Router();
 
-  app.get("/test", async (req, res) => {
-    res.json({
-      "message": "success"
-    })
-  });
 
-  app.post("/register", async (req, res) => {
-    register(req, res)
-  });
+router.route("/login").post(authController.login);
+router.route("/register").post(authController.register);
 
-  app.post("/login", async (req, res) => {
-    login(req, res)
-  });
 
-}
+module.exports = router;
