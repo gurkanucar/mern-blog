@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const authRoute = require('./routes/authRoute');
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
-// const  = require("./middleware/asyncHandler");
+
 
 var corsOptions = {
     origin: "*",
