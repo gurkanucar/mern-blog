@@ -5,6 +5,7 @@ const cors = require("cors");
 const authRoute = require('./routes/authRoute');
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
 const connectToDB = require('./database/database');
+const { createInitialRoles } = require("./controllers/roleController");
 
 var corsOptions = {
     origin: "*",
@@ -21,6 +22,7 @@ app.use(errorHandlerMiddleware);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, async () => {
     console.log(`Server is running on port ${PORT}`);
-    connectToDB(process.env.MONGO_CONNECTION_URL);
+    await connectToDB(process.env.MONGO_CONNECTION_URL);
+    await createInitialRoles();
 });
 
