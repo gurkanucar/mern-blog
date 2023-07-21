@@ -5,6 +5,7 @@ const User = require("../models/User");
 const ValidationError = require('../errors/validationError');
 const CustomError = require("../errors/customError");
 const { StatusCodes } = require("http-status-codes");
+const { findRoleByNameCore } = require("./roleController");
 
 
 exports.login = async (req, res) => {
@@ -33,6 +34,9 @@ exports.register = async (req, res) => {
         throw new ValidationError("Validation error!", errorDetails);
     }
 
+    const role = await findRoleByNameCore("USER");
+    console.log("ROLE", role);
+
     const { username, email, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
@@ -41,6 +45,7 @@ exports.register = async (req, res) => {
         username,
         email,
         password: hashedPassword,
+        roles: [role._id],
     });
 
     console.log("User created");

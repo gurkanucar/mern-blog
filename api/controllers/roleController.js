@@ -49,15 +49,12 @@ const deleteRoleById = async (req, res) => {
     res.json({ message: "Role deleted successfully." });
 };
 
+
 const findRoleByName = async (req, res) => {
     const roleName = req.params.name;
-    const role = await RoleModel.findOne({ name: roleName });
-    if (!role) {
-        return res.status(404).json({ error: "Role not found." });
-    }
+    const role = await findRoleByNameCore(roleName);
     res.json(role);
 };
-
 
 const _createRole = async ({ name, detail }) => {
     try {
@@ -69,6 +66,14 @@ const _createRole = async ({ name, detail }) => {
     } catch (e) {
     }
 }
+
+const findRoleByNameCore = async (roleName) => {
+    const role = await RoleModel.findOne({ name: roleName });
+    if (!role) {
+        throw new Error("Role not found.");
+    }
+    return role;
+};
 
 const createInitialRoles = async () => {
     await _createRole({ name: "USER", detail: "user" });
@@ -82,5 +87,6 @@ module.exports = {
     updateRoleById,
     deleteRoleById,
     findRoleByName,
-    createInitialRoles
+    createInitialRoles,
+    findRoleByNameCore
 };
