@@ -1,34 +1,26 @@
-require('dotenv').config();
 const express = require("express");
+require('dotenv').config();
 require('express-async-errors');
 const cors = require("cors");
-const mongoose = require("mongoose");
 const authRoute = require('./routes/authRoute');
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
-
+const connectToDB = require('./database/database');
 
 var corsOptions = {
     origin: "*",
 };
 
-mongoose.connect(process.env.MONGO_CONNECTION_URL)
 
 const app = express()
 app.use(express.json())
 app.use(cors(corsOptions));
-
-
-
 app.use('/auth', authRoute);
-
-
 app.use(errorHandlerMiddleware);
 
 
-
-
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Server is running on port ${PORT}`);
+    connectToDB(process.env.MONGO_CONNECTION_URL);
 });
 
