@@ -6,8 +6,6 @@ const { exemptedRoutes } = require("../auth/allowRoutes");
 
 const authenticateJWT = (req, res, next) => {
     const token = req.header("Authorization")?.split(" ")[1];
-
-    console.log(req.path, exemptedRoutes)
     if (isExemptedRoute(req.path, req.method, exemptedRoutes)) {
         return next();
     }
@@ -18,7 +16,7 @@ const authenticateJWT = (req, res, next) => {
 
     const decodedToken = validateToken(token);
 
-    req.user = decodedToken;
+    req.authenticatedUser = decodedToken;
     next();
 };
 
