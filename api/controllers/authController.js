@@ -8,16 +8,28 @@ const { StatusCodes } = require("http-status-codes");
 const { findRoleByNameCore } = require("./roleController");
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
-  const userDoc = await User.findOne({ username });
+  const { username: reqUsername, password: reqPassword } = req.body;
 
-  if (!userDoc || !bcrypt.compareSync(password, userDoc.password)) {
+
+  console.log(reqUsername, reqPassword)
+
+  const userDoc = await User.findOne({ username: reqUsername })
+    .populate({
+      path: "roles",
+      select: { name: 1, _id: 0 },
+    })
+    .select("-entries");
+
+
+  if (!userDoc || !bcrypt.compareSync(reqPassword, userDoc.password)) {
     throw new CustomError("Wrong credentials!", StatusCodes.UNAUTHORIZED);
   }
 
-  const token = generateToken({ username, id: userDoc._id });
+  const { password, ...userWithoutPassword } = userDoc.toObject();
+
+  const token = generateToken({ username: userDoc.username, id: userDoc._id, roles: userDoc.roles });
   res.json({
-    user: userDoc,
+    user: userWithoutPassword,
     accessToken: token,
   });
 };
