@@ -26,6 +26,7 @@ const createEntry = async (req, res, next) => {
 };
 
 const getAllEntries = async (req, res, next) => {
+  console.log(req.authenticatedUser);
   const entries = await EntryModel.find().populate(
     "createdBy",
     "username email"

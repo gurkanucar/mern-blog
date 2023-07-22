@@ -7,6 +7,7 @@ const entryRoute = require("./routes/entryRoute");
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
 const connectToDB = require("./database/database");
 const { createInitialRoles } = require("./controllers/roleController");
+const authenticateJWT = require("./middleware/authenticateHandler");
 
 var corsOptions = {
   origin: "*",
@@ -15,8 +16,12 @@ var corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
+
+app.use(authenticateJWT);
+
 app.use("/auth", authRoute);
 app.use("/entries", entryRoute);
+
 app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT || 8080;
