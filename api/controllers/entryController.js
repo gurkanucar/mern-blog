@@ -1,7 +1,5 @@
-const express = require("express");
 const EntryModel = require("../models/Entry");
 const UserModel = require("../models/User");
-const router = express.Router();
 
 const createEntry = async (req, res, next) => {
   const { name, content, tags, createdBy } = req.body;
@@ -25,7 +23,7 @@ const createEntry = async (req, res, next) => {
   }
 };
 
-const getAllEntries = async (req, res, next) => {
+const getAllEntries = async (req, res) => {
   console.log(req.authenticatedUser);
   const entries = await EntryModel.find().populate(
     "createdBy",
